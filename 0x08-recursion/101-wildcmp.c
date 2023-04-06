@@ -1,31 +1,38 @@
 #include "main.h"
 
 /**
- * wildcmp - Compares two strings, allowing for wildcard characters.
- * @s1: The string to compare.
- * @s2: The string that may contain wildcard characters.
+ * wildcmp - compares two strings to see if they match
  *
- * Return: If the strings can be considered identical - 1.
- *         Otherwise - 0.
+ * @s1: the first string to compare
+ * @s2: the second string to compare; can contain wildcard '*'
+ *
+ * Return: 1 if the strings match, otherwise 0
  */
 int wildcmp(char *s1, char *s2)
 {
-    if (*s1 == '\0' && *s2 == '\0')
-        return (1);
-
-    if (*s1 == *s2)
-        return (wildcmp(s1 + 1, s2 + 1));
-
     if (*s2 == '*')
     {
-        if (*(s2 + 1) == '\0')
+        if (*(s2 + 1) == '*')
+        {
+            return (wildcmp(s1, s2 + 1));
+        }
+        else if (wildcmp(s1, s2 + 1))
+        {
             return (1);
+        }
+        else
+        {
+            return (wildcmp(s1 + 1, s2));
+        }
+    }
 
-        if (*s1 == '\0' && *(s2 + 1) == '*')
-            return (0);
-
-        if (wildcmp(s1, s2 + 1) || wildcmp(s1 + 1, s2))
-            return (1);
+    if (*s1 == '\0' && *s2 == '\0')
+    {
+        return (1);
+    }
+    else if (*s1 == *s2)
+    {
+        return (wildcmp(s1 + 1, s2 + 1));
     }
 
     return (0);
