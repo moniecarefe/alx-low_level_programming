@@ -6,34 +6,27 @@
  *
  * Return: 1 if n is prime, 0 otherwise
  */
-int is_prime_number(int n)
+int is_prime_helper(int n, int i)
 {
-	if (n <= 1)
+	if (n < 2 || (n != 2 && n % 2 == 0))
 	{
 		return (0);
 	}
-	else if (n <= 3)
+	else if (i > n / 2)
 	{
 		return (1);
 	}
-	else if (n % 2 == 0 || n % 3 == 0)
+	else if (n % i == 0)
 	{
 		return (0);
 	}
 	else
 	{
-		int i = 5;
-
-		while (i * i <= n)
-		{
-			if (n % i == 0 || n % (i + 2) == 0)
-			{
-				return (0);
-			}
-
-			i += 6;
-		}
-
-		return (1);
+		return (is_prime_helper(n, i + 2));
 	}
+}
+
+int is_prime_number(int n)
+{
+	return (is_prime_helper(n, 3));
 }
