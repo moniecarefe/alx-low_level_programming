@@ -1,39 +1,56 @@
-/**
- * sqrt_helper - helper function for _sqrt_recursion
- * @n: the number to find the square root of
- * @lo: the lower bound of the binary search
- * @hi: the upper bound of the binary search
- *
- * Return: the square root of n if it's a perfect square, or -1 otherwise
- */
-int sqrt_helper(int n, int lo, int hi)
-{
-    int mid, sq;
-
-    if (lo > hi)
-        return (-1);
-
-    mid = (lo + hi) / 2;
-    sq = mid * mid;
-
-    if (sq == n)
-        return (mid);
-    else if (sq < n)
-        return (sqrt_helper(n, mid + 1, hi));
-    else
-        return (sqrt_helper(n, lo, mid - 1));
-}
+#include "main.h"
 
 /**
- * _sqrt_recursion - returns the natural square root of a number
- * @n: the number to find the square root of
+ * _sqrt_recursion - Returns the natural square root of a number
+ * @n: The number to find the square root of
  *
- * Return: the square root of n if it's a perfect square, or -1 otherwise
+ * Return: The natural square root of n, or -1 if n does not have a natural square root
  */
 int _sqrt_recursion(int n)
 {
-    if (n < 0)
-        return (-1);
+	if (n < 0)
+	{
+		return (-1);
+	}
+	else if (n == 0 || n == 1)
+	{
+		return (n);
+	}
+	else
+	{
+		return (find_sqrt(n, 1, n));
+	}
+}
 
-    return (sqrt_helper(n, 0, n));
+/**
+ * find_sqrt - Finds the natural square root of a number
+ * @n: The number to find the square root of
+ * @start: The starting value for the search
+ * @end: The ending value for the search
+ *
+ * Return: The natural square root of n, or -1 if n does not have a natural square root
+ */
+int find_sqrt(int n, int start, int end)
+{
+	int mid = (start + end) / 2;
+
+	if (mid * mid == n)
+	{
+		return (mid);
+	}
+	else if (mid * mid < n)
+	{
+		if ((mid + 1) * (mid + 1) > n)
+		{
+			return (mid);
+		}
+		else
+		{
+			return (find_sqrt(n, mid + 1, end));
+		}
+	}
+	else
+	{
+		return (find_sqrt(n, start, mid - 1));
+	}
 }
